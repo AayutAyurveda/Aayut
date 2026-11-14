@@ -1,0 +1,43 @@
+/* The hidden attribute always hides, even on elements that also set a display value. */
+[hidden]{display:none!important}
+/* Aayut shared menu. Flat colours and glass, to match the website. */
+.sx{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:300;font:500 15px/1.2 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.sx-btn{width:50px;height:50px;border-radius:50%;padding:0;border:1px solid rgba(255,246,232,.8);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(238,220,194,.9);-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 14px 30px -14px rgba(31,10,4,.7);transition:transform .6s cubic-bezier(.22,1,.36,1),box-shadow .6s cubic-bezier(.22,1,.36,1)}
+.sx-btn:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 18px 36px -14px rgba(31,10,4,.75)}
+.sx-btn:active{transform:scale(.94)}
+.sx-btn:focus-visible{outline:3px solid #3D2BFF;outline-offset:3px}
+.sx-btn span{width:5px;height:5px;border-radius:50%;background:#3D2BFF;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.sx-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(-2px)}
+.sx-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(2px)}
+.sx-panel{display:none;position:absolute;right:0;bottom:62px;min-width:240px;padding:8px;border-radius:22px;background:rgba(238,220,194,.95);-webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);border:1px solid rgba(255,246,232,.8);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 30px 60px -22px rgba(31,10,4,.7);transform-origin:bottom right}
+.sx-panel.open{display:block;animation:sxIn .55s cubic-bezier(.22,1,.36,1) both}
+@keyframes sxIn{from{opacity:0;transform:translate3d(0,8px,0) scale(.96)}to{opacity:1;transform:none}}
+.sx-panel a,.menu a.sx-link{display:block;padding:12px 14px;border-radius:14px;color:#1F0A04;text-decoration:none;font-weight:600;transition:background-color .5s cubic-bezier(.22,1,.36,1),color .5s cubic-bezier(.22,1,.36,1)}
+.sx-panel a:hover,.sx-panel a:focus-visible,.menu a.sx-link:hover{background:rgba(255,251,244,.7);outline:none}
+.sx-panel a[aria-current="page"]{background:#3D2BFF;color:#FFFFFF}
+.menu a.sx-link{font-size:15px;margin:0 6px}
+.menu .sx-head{font-size:13px;color:#6A2C18;margin:12px 16px 4px}
+@media (prefers-reduced-motion:reduce){.sx-panel.open{animation:none}.sx-btn,.sx-btn span{transition:none}}
+
+/* ---- Performance and touch, for every screen size ---- */
+/* Phones: lighter blur on glass and glow, which are costly to draw on small screens */
+@media (max-width:600px){
+  body::before,body::after{filter:blur(36px)!important}
+  .card,.menu,.seg,.bcard,.cond,.gcard,.glass,.sx-btn,.sx-panel{-webkit-backdrop-filter:blur(14px) saturate(140%)!important;backdrop-filter:blur(14px) saturate(140%)!important}
+  .glow{filter:blur(44px)!important}
+}
+/* Phones: text fields at 16px or more, so the browser does not zoom in when a field is tapped */
+@media (max-width:600px){input,select,textarea{font-size:16px!important}}
+/* Touch screens: every tap target at least 44 by 44 pixels */
+@media (pointer:coarse){button,.btn,.link,a.pillbtn,.sx-btn{min-height:44px}}
+/* Reduced motion: no looping background movement */
+@media (prefers-reduced-motion:reduce){body::before,body::after{animation:none!important}}
+
+/* Polish: menu buttons match the links, the menu leaves with its own animation, and the sound switch */
+.sx-panel button,.menu button.sx-link{display:block;width:100%;text-align:left;padding:12px 14px;border:0;border-radius:14px;background:none;color:#1F0A04;font:600 15px/1.2 Inter,-apple-system,sans-serif;cursor:pointer;transition:background-color .45s cubic-bezier(.22,1,.36,1)}
+.sx-panel button:hover,.sx-panel button:focus-visible,.menu button.sx-link:hover{background:rgba(255,251,244,.7);outline:none}
+.sx-panel.open,.sx-panel.closing{display:block}
+.sx-panel.closing{animation:sxOut .22s cubic-bezier(.4,0,1,1) both}
+@keyframes sxOut{to{opacity:0;transform:translate3d(0,6px,0) scale(.97)}}
+.menu button.sx-link{margin:0 6px;width:calc(100% - 12px)}
+@media (prefers-reduced-motion:reduce){.sx-panel.closing{animation:none}}
